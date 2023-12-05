@@ -1,9 +1,7 @@
-﻿namespace test.api.models.domain
+﻿namespace test.api.models.DTOs
 {
-    public class walk
+    public class addWalkDto
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -14,12 +12,5 @@
         public Guid difficultyId { get; set; }
 
         public Guid regionId { get; set; }
-
-        //nav property
-
-        public difficulty difficulty { get; set; }
-        
-        public region region { get; set; }
     }
 }
- 
