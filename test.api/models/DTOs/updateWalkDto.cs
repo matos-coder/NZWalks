@@ -1,11 +1,7 @@
-﻿using test.api.models.domain;
-
-namespace test.api.models.DTOs
+﻿namespace test.api.models.DTOs
 {
-    public class WalkDto
+    public class updateWalkDto
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -16,8 +12,6 @@ namespace test.api.models.DTOs
         public Guid difficultyId { get; set; }
 
         public Guid regionId { get; set; }
-        public DifficultyDto difficulty { get; set; }
 
-        public regionsdto region { get; set; }
     }
 }
