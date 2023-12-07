@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using test.api.CustomValidate;
 using test.api.data;
 using test.api.models.domain;
 using test.api.models.DTOs;
@@ -62,19 +63,20 @@ namespace test.api.Controllers
             return Ok(regionsDto);
         }
         [HttpPost]
-
+        [validateModel]
         public async Task<IActionResult> CreateAsync([FromBody] addRegionDto addRegionDto)
         {
-            //map dto to model
-            var regionModel = mapper.Map<region>(addRegionDto);
-            
-            //use model to create a region
-            regionModel = await regionRepository.CreateAsync(regionModel);
+                //map dto to model
+                var regionModel = mapper.Map<region>(addRegionDto);
 
-            //map model to dto
-            var regionsDto = mapper.Map<regionsdto>(regionModel);
-            
-            return CreatedAtAction(nameof(GetById), new {Id = regionModel.Id } ,regionsDto);
+                //use model to create a region
+                regionModel = await regionRepository.CreateAsync(regionModel);
+
+                //map model to dto
+                var regionsDto = mapper.Map<regionsdto>(regionModel);
+
+                return CreatedAtAction(nameof(GetById), new { Id = regionModel.Id }, regionsDto);
+           
         }
         [HttpPut]
         [Route("{id:Guid}")]
