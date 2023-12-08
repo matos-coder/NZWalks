@@ -21,6 +21,7 @@ namespace test.api.Repositories
         public async Task<List<walk>> GetAllAsync()
         {
             return await dbContext.walks.Include("difficulty").Include("region").ToListAsync();
+            
         }
         public async Task<walk?> GetByIdAsync(Guid id)
         {

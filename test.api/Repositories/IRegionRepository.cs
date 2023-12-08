@@ -5,7 +5,7 @@ namespace test.api.Repositories
 {
     public interface IRegionRepository
     {
-        Task<List<region>> GetAllAsync();
+        Task<List<region>> GetAllAsync(string? sortBy = null, bool isAsending = true);
 
         Task<region?> GetByIdAsync(Guid id);
 

@@ -38,9 +38,18 @@ namespace test.api.Repositories
 
         }
 
-        public async Task<List<region>> GetAllAsync()
+        public async Task<List<region>> GetAllAsync(string? sortBy = null, bool isAsending = true)
         {
-            return await dbContext.regions.ToListAsync();
+            //return await dbContext.regions.ToListAsync();
+            var regions = dbContext.regions.AsQueryable();
+            if(string.IsNullOrWhiteSpace(sortBy)==false)
+            {
+                if(sortBy.Equals("Name",StringComparison.OrdinalIgnoreCase))
+                {
+                    regions = isAsending ? regions.OrderBy(x => x.Name): regions.OrderByDescending(x => x.Name);
+                }
+            }
+            return await regions.ToListAsync();
         }
 
 

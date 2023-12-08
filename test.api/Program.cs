@@ -13,8 +13,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //my services
-builder.Services.AddDbContext<walksDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("testConnectionString")));
+//builder.Services.AddDbContext<walksDbContext>(options => 
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("testConnectionString"))
+//    );
+builder.Services.AddDbContext<walksDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("testConnectionString"), sqlServerOptions =>
+    {
+        sqlServerOptions.EnableRetryOnFailure();
+    });
+});
 
 builder.Services.AddScoped<IRegionRepository, SQLregionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLwalkRepository>();
