@@ -38,9 +38,10 @@ namespace test.api.Repositories
 
         }
 
-        public async Task<List<region>> GetAllAsync(string? sortBy = null, bool isAsending = true)
+        public async Task<List<region>> GetAllAsync(string? sortBy = null, bool isAsending = true, int pageNumber = 1, int pageSize = 1000)
         {
             //return await dbContext.regions.ToListAsync();
+            //sorting
             var regions = dbContext.regions.AsQueryable();
             if(string.IsNullOrWhiteSpace(sortBy)==false)
             {
@@ -49,7 +50,10 @@ namespace test.api.Repositories
                     regions = isAsending ? regions.OrderBy(x => x.Name): regions.OrderByDescending(x => x.Name);
                 }
             }
-            return await regions.ToListAsync();
+            //pagination
+            var skipResult = (pageNumber - 1) * pageSize;
+
+            return await regions.Skip(skipResult).Take(pageSize).ToListAsync();
         }
 
 

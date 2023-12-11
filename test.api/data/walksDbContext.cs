@@ -5,7 +5,7 @@ namespace test.api.data
 {
     public class walksDbContext: DbContext
     {
-        public walksDbContext(DbContextOptions dbConOpt):base(dbConOpt)
+        public walksDbContext(DbContextOptions<walksDbContext> dbConOpt):base(dbConOpt)
         {
             
         }

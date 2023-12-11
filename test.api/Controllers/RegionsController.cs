@@ -28,10 +28,10 @@ namespace test.api.Controllers
         //get all region
         [HttpGet]
 
-        public async Task<IActionResult> GetAll([FromQuery] string? sortBy, [FromQuery] bool? isAsending) 
+        public async Task<IActionResult> GetAll([FromQuery] string? sortBy, [FromQuery] bool? isAsending, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize= 1000) 
         {
             //get data from database with model
-            var regionsDomain = await regionRepository.GetAllAsync(sortBy, isAsending ?? true);
+            var regionsDomain = await regionRepository.GetAllAsync(sortBy, isAsending ?? true,pageNumber,pageSize);
 
             //map domain model to dto
             var regionsDto = mapper.Map<List<regionsdto>>(regionsDomain);
