@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using test.api.models.DTOs;
+using test.api.Repositories;
 
 namespace test.api.Controllers
 {
@@ -10,10 +11,12 @@ namespace test.api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ITokenRepository tokenRepository;
 
-        public AuthController(UserManager<IdentityUser> userManager)
+        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
+            this.tokenRepository = tokenRepository;
         }
         [HttpPost]
         [Route("Register")]
@@ -48,7 +51,16 @@ namespace test.api.Controllers
                 var checkPassResult = await userManager.CheckPasswordAsync(user, loginDto.Password);
                 if (checkPassResult)
                 {
-                    return Ok();
+                    var roles = await userManager.GetRolesAsync(user);
+                    if (roles != null)
+                    {
+                        var JwtToken = tokenRepository.createJwtToken(user, roles.ToList());
+                        var response = new LoginResponseDto
+                        {
+                            JwtToken = JwtToken,
+                        };
+                        return Ok(response);
+                    }
                 }
             }
             return BadRequest();
