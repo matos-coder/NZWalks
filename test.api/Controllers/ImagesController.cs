@@ -30,7 +30,7 @@ namespace test.api.Controllers
                 {
                     File= request.File,
                     FileDescription= request.FileDescription,
-                    FileName= request.FileName,
+                    FileName = request.File.FileName,
                     FileExtension = Path.GetExtension(request.File.FileName),
                     FileSizeInByte = request.File.Length
                 };
