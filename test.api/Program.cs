@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -67,6 +69,7 @@ builder.Services.AddDbContext<walksAuthDbContext>(options =>
 builder.Services.AddScoped<IRegionRepository, SQLregionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLwalkRepository>();
 builder.Services.AddScoped<ITokenRepository, tokenRepository>();
+builder.Services.AddScoped<IImageRepository, SQLImageRepository>();
 builder.Services.AddAutoMapper(typeof(AuthoMapperProfile));
 
 builder.Services.AddIdentityCore<IdentityUser>()
@@ -112,6 +115,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images"
+});
 
 app.MapControllers();
 

@@ -12,6 +12,7 @@ namespace test.api.data
         public DbSet<difficulty> difficulties { get; set; }
         public DbSet<region> regions { get; set; }
         public DbSet<walk> walks { get; set; }
+        public DbSet<image> images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
