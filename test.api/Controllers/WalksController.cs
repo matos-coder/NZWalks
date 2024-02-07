@@ -9,6 +9,7 @@ using test.api.Repositories;
 
 namespace test.api.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class WalksController : ControllerBase
